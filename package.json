@@ -10,6 +10,8 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "babel-plugin-component": "^1.0.0",
+    "element-ui": "^2.0.11",
     "three": "^0.89.0",
     "vue": "^2.5.2"
   },

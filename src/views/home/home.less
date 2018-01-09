@@ -1,13 +1,54 @@
 .home {
 	width: 100%;
 	display: flex;
-	flex-direction: row;
-	justify-content: space-around;
-	align-items: center;
-	.plainImgBox{
-		width: 20%;
+	flex-direction: column;
+	justify-content: center;
+	align-content: space-around;
+	.contentBox {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-content: center;
 	}
-	.panoramaBox{
-		width: 80%;
+	.leftBox {
+		width: 20%;
+		margin-right: 3%;
+	}
+	.rightBox {
+		width: 70%;
+	}
+	.titleFontSize{
+		font-size: 20px;
+		text-align: center;
+		padding: 20px 0;
+	}
+	.plainImgBox{
+		display: flex;
+		justify-content: center;
+	}
+	ul li {
+		text-align: center;
+	}
+	li:nth-child(1):before {
+		content: '左';
+	}
+	li:nth-child(2):before {
+		content: '右';
+	}
+	li:nth-child(3):before {
+		content: '上';
+	}
+	li:nth-child(4):before {
+		content: '下';
+	}
+	li:nth-child(5):before {
+		content: '前';
+	}
+	li:nth-child(6):before {
+		content: '后';
+	}
+	ul li img{
+		height: 84% !important;
 	}
 }
