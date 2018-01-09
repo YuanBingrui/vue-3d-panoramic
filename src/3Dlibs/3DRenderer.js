@@ -1,24 +1,24 @@
 var ThreeRender = {};
 
-ThreeRender._main_ = function(THREE) {
+ThreeRender._main_ = function(THREE, threeDshowBoxObj) {
 	var camera, scene, renderer;
 	var geometry, material, mesh;
 	var target = new THREE.Vector3();
 
 	var lon = -90, lat = 0,
 			phi = 0, theta = 0,
-			touchX, touchY, isUserInteracting = false;
+			touchX, touchY, isUserInteracting = false,
+			boxWidth, boxHeight;
 
 	init();
 	animate();
 
 	function init() {
+		console.log(threeDshowBoxObj.$el.clientHeight);
+		boxWidth = threeDshowBoxObj.$el.clientWidth;
+		boxHeight = threeDshowBoxObj.$el.clientHeight;
 
-		var container;
-
-		container = document.getElementById( 'ThreeDshowBox' );
-
-		camera = new THREE.PerspectiveCamera( 260, window.innerWidth / window.innerHeight, 1, 1000 );
+		camera = new THREE.PerspectiveCamera( 260, boxWidth / boxHeight, 1, 1000 );
 
 		scene = new THREE.Scene();
 
@@ -26,13 +26,9 @@ ThreeRender._main_ = function(THREE) {
 		geometry.scale( -1, 1, 1 );
 
 		var loader = new THREE.CubeTextureLoader();
-		loader.setPath( '../../static/cube/' );
-		
-		var textureCube = loader.load( [
-			'posx.jpg', 'negx.jpg',
-			'posy.jpg', 'negy.jpg',
-			'posz.jpg', 'negz.jpg'
-		] );
+		//loader.setPath( '../../static/cube/' );
+
+		var textureCube = loader.load(threeDshowBoxObj.cubeImg);
 
 		material = new THREE.MeshBasicMaterial( { envMap: textureCube } );
 
@@ -42,14 +38,15 @@ ThreeRender._main_ = function(THREE) {
 
 		renderer = new THREE.WebGLRenderer();
 		renderer.setPixelRatio( window.devicePixelRatio );
-		renderer.setSize( window.innerWidth, window.innerHeight );
-		container.appendChild( renderer.domElement );
+		renderer.setSize( boxWidth, boxHeight );
+		threeDshowBoxObj.$el.appendChild( renderer.domElement );
 
-		document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-    document.addEventListener( 'wheel', onDocumentMouseWheel, false );
+		threeDshowBoxObj.$on( 'mousedown', onDocumentMouseDown );
+    threeDshowBoxObj.$on( 'wheel', onDocumentMouseWheel );
 
-    document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-    document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+    threeDshowBoxObj.$on( 'touchstart', onDocumentTouchStart );
+    threeDshowBoxObj.$on( 'touchmove', onDocumentTouchMove );
+    threeDshowBoxObj.$on( 'handelresize', handleResize );
 
     window.addEventListener( 'resize', onWindowResize, false );
   }
@@ -73,25 +70,28 @@ ThreeRender._main_ = function(THREE) {
 	}
 
 	function onWindowResize() {
+    threeDshowBoxObj.$emit('handelresize', threeDshowBoxObj);
+	}
 
-    camera.aspect = window.innerWidth / window.innerHeight;
+	function handleResize(vmthreeD){
+		
+		camera.aspect = vmthreeD.$el.clientWidth / vmthreeD.$el.clientHeight;
     camera.updateProjectionMatrix();
 
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize( vmthreeD.$el.clientWidth, vmthreeD.$el.clientHeight );
 
 	}
 
 	function onDocumentMouseDown( event ) {
 
-    event.preventDefault();
     if(isUserInteracting){
     	isUserInteracting = false;
     }else{
     	isUserInteracting = true;
     }
 
-    document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-    document.addEventListener( 'mouseup', onDocumentMouseUp, false );
+    threeDshowBoxObj.$on( 'mousemove', onDocumentMouseMove );
+    threeDshowBoxObj.$on( 'mouseup', onDocumentMouseUp );
 
 	}
 
@@ -107,8 +107,8 @@ ThreeRender._main_ = function(THREE) {
 
 	function onDocumentMouseUp( event ) {
 
-    document.removeEventListener( 'mousemove', onDocumentMouseMove );
-    document.removeEventListener( 'mouseup', onDocumentMouseUp );
+    threeDshowBoxObj.$off( 'mousemove', onDocumentMouseMove );
+    threeDshowBoxObj.$off( 'mouseup', onDocumentMouseUp );
 
 	}
 
@@ -127,8 +127,6 @@ ThreeRender._main_ = function(THREE) {
 
 	function onDocumentTouchStart( event ) {
 
-    event.preventDefault();
-
     var touch = event.touches[ 0 ];
 
     touchX = touch.screenX;
@@ -137,8 +135,6 @@ ThreeRender._main_ = function(THREE) {
 	}
 
 	function onDocumentTouchMove( event ) {
-
-    event.preventDefault();
 
     var touch = event.touches[ 0 ];
 
