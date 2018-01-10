@@ -1,5 +1,5 @@
 <template>
-  <div id="threeDshowBox" @mousedown.prevent="autoMobile" @mousewheel.prevent="wheelZoom" @mousemove.prevent="mouseMove" @mouseup.prevent="mouseUp" @touchstart.prevent="touchStart" @touchmove.prevent="touchMove"></div>
+  <div id="threeDshowBox" data-content="" @mousedown.prevent="autoMobile" @mousewheel.prevent="wheelZoom" @mousemove.prevent="mouseMove" @mouseup.prevent="mouseUp" @touchstart.prevent="touchStart" @touchmove.prevent="touchMove"></div>
 </template>
 
 <script>
@@ -9,6 +9,10 @@ import ThreeRender from '@/3Dlibs/3DRenderer';
 export default {
   name: 'ThreeDshow',
   props: {
+    modeName: {
+      type: String,
+      default: '全景图'
+    },
     cubeImg: {
       validator: (val) => val instanceof Array
     }
@@ -16,7 +20,16 @@ export default {
   data () {
     return {}
   },
+  watch: {
+    cubeImg: function() {
+      ThreeRender._main_(THREE, this);
+    },
+    modeName: function() {
+      this.$el.dataset.content = this.modeName;
+    }
+  },
   mounted() {
+    this.$el.dataset.content = this.modeName;
     ThreeRender._main_(THREE, this);
   },
   methods: {

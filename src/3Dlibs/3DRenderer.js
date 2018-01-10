@@ -14,9 +14,8 @@ ThreeRender._main_ = function(THREE, threeDshowBoxObj) {
 	animate();
 
 	function init() {
-		console.log(threeDshowBoxObj.$el.clientHeight);
 		boxWidth = threeDshowBoxObj.$el.clientWidth;
-		boxHeight = threeDshowBoxObj.$el.clientHeight;
+		boxHeight = threeDshowBoxObj.$el.clientHeight - 33;
 
 		camera = new THREE.PerspectiveCamera( 260, boxWidth / boxHeight, 1, 1000 );
 
@@ -36,6 +35,7 @@ ThreeRender._main_ = function(THREE, threeDshowBoxObj) {
 
 		scene.add( mesh );
 
+		removeAllChild();
 		renderer = new THREE.WebGLRenderer();
 		renderer.setPixelRatio( window.devicePixelRatio );
 		renderer.setSize( boxWidth, boxHeight );
@@ -75,10 +75,10 @@ ThreeRender._main_ = function(THREE, threeDshowBoxObj) {
 
 	function handleResize(vmthreeD){
 		
-		camera.aspect = vmthreeD.$el.clientWidth / vmthreeD.$el.clientHeight;
+		camera.aspect = vmthreeD.$el.clientWidth / (vmthreeD.$el.clientHeight - 33);
     camera.updateProjectionMatrix();
 
-    renderer.setSize( vmthreeD.$el.clientWidth, vmthreeD.$el.clientHeight );
+    renderer.setSize( vmthreeD.$el.clientWidth, vmthreeD.$el.clientHeight - 33 );
 
 	}
 
@@ -145,6 +145,12 @@ ThreeRender._main_ = function(THREE, threeDshowBoxObj) {
     touchY = touch.screenY;
 
 	}
+
+	function removeAllChild() {    
+    while(threeDshowBoxObj.$el.hasChildNodes()) {
+      threeDshowBoxObj.$el.removeChild(threeDshowBoxObj.$el.firstChild);  
+    }  
+	} 
 }
 
 export default ThreeRender;
