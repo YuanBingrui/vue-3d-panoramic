@@ -6,6 +6,7 @@
         @click="generatePanorama">
         生成全景图
       </el-button>
+      <div style="color: #c1c1c1;margin-left: 5px; margin-right: 60%;">(ps: 上传图片的顺序为左、右、上、下、前、后)</div>
       <el-dropdown
         @command="switchMode">
         <el-button
@@ -79,8 +80,7 @@ export default {
   },
   methods: {
     handleRemove(file, fileList) {
-      console.log(file)
-      console.log(fileList)
+      console.log(file, fileList);
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
@@ -112,7 +112,7 @@ export default {
     initMode(command) {
       this.modeArr.map(one => {
         if(one.id === command){
-          this.modeName = one.name
+          this.modeName = one.name;
         }
       })
     }
