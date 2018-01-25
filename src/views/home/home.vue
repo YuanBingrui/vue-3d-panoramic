@@ -100,7 +100,7 @@ export default {
     generatePanorama() {
       if(this.tempCubeImg.length === 6){
         this.tempCubeImg.forEach((value, index) => {
-          this.$set(this.cubeImg, index, this.tempCubeImg[index].url); 
+          this.$set(this.cubeImg, index, this.changeImgSize(this.tempCubeImg[index].url)); 
         })
       }else{
         this.$message.warning(`必须上传6张图片`);
@@ -115,6 +115,19 @@ export default {
           this.modeName = one.name;
         }
       })
+    },
+    changeImgSize(tempUrl){
+
+      let tempCanvas = this.$parent.$el.ownerDocument.createElement('canvas');
+      let tempCtx = tempCanvas.getContext('2d'); 
+      tempCanvas.width = 1024;
+      tempCanvas.height = 1024;
+
+      let tempImg = new Image();
+      tempImg.src = tempUrl;
+      tempCtx.drawImage(tempImg, 0, 0, tempCanvas.width, tempCanvas.height);
+
+      return tempCanvas.toDataURL("image/png");
     }
   }
 }
