@@ -59,6 +59,7 @@
 
 <script>
 import ThreeDshow from '@/components/ThreeDshow/ThreeDshow'
+
 export default {
   name: 'Home',
   components: {
@@ -70,11 +71,15 @@ export default {
       dialogVisible: false,
       modeName: '3D全景',
       cubeImg: [
-        '../../static/cube/posx.jpg', '../../static/cube/negx.jpg',
-        '../../static/cube/posy.jpg', '../../static/cube/negy.jpg',
-        '../../static/cube/posz.jpg', '../../static/cube/negz.jpg'
+        '/3DPanoramic/static/cube/posx.jpg', '/3DPanoramic/static/cube/negx.jpg',
+        '/3DPanoramic/static/cube/posy.jpg', '/3DPanoramic/static/cube/negy.jpg',
+        '/3DPanoramic/static/cube/posz.jpg', '/3DPanoramic/static/cube/negz.jpg'
       ],
-      modeArr: [ {id: '3DPanorama', name: '3D全景'}, {id: '3DPanorama1', name: '3D全景1'}, {id: '3DPanorama2', name: '3D全景2'}, {id: '3DPanorama3', name: '3D全景3'}],
+      modeArr: [
+        {id: '3DPanorama', name: '3D全景'},
+        {id: '3DPanorama1', name: '3D全景1'},
+        {id: '3DPanorama2', name: '3D全景2'},
+        {id: '3DPanorama3', name: '3D全景3'}],
       tempCubeImg: []
     }
   },

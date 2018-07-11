@@ -1,5 +1,14 @@
 <template>
-  <div id="threeDshowBox" data-content="" @mousedown.prevent="autoMobile" @mousewheel.prevent="wheelZoom" @mousemove.prevent="mouseMove" @mouseup.prevent="mouseUp" @touchstart.prevent="touchStart" @touchmove.prevent="touchMove"></div>
+  <div
+    id="threeDshowBox"
+    data-content=""
+    @mousedown.prevent="autoMobile"
+    @mousewheel.prevent="wheelZoom"
+    @mousemove.prevent="mouseMove"
+    @mouseup.prevent="mouseUp"
+    @touchstart.prevent="touchStart"
+    @touchmove.prevent="touchMove">
+  </div>
 </template>
 
 <script>
